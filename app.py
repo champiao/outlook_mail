@@ -3,11 +3,17 @@ import email
 from dotenv import load_dotenv
 import os
 import pdfkit
+from time import sleep
+from datetime import datetime
+import pytz
 from pypdf import PdfMerger
 from bs4 import BeautifulSoup
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 merger = PdfMerger()
+tz_SP = pytz.timezone('America/Sao_Paulo')
+now = datetime.now(tz_SP)
+current_time = now.strftime("%m-%d-%Y, %H:%M:%S")
 def export_to_pdf(subject, body, ident, files):
     try:
         path = 'FOI.pdf'
@@ -73,8 +79,10 @@ def fetch_and_export_emails(username, password):
                     print("Nenhum email encontrado na caixa de entrada.")
         # merge entre arquivos PDF criados separadamente
         for pdf in files:
+            sleep(1)
             merger.append(pdf)
-        merger.write('unificados/Final.pdf')
+            os.system(f'rm -rf {pdf}')
+        merger.write(f'unificados/Final-{current_time}.pdf')
         merger.close()
         # Fecha a conexão com o servidor IMAP
         mail.logout()
