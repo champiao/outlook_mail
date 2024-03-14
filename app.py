@@ -41,7 +41,7 @@ def fetch_and_export_emails(username, password):
         mail.select('inbox')
 
         # Procura por todos os emails na caixa de entrada
-        result, data = mail.search(None, 'ALL')
+        result, data = mail.search(None, 'UNSEEN')
         # if result == 'OK':
         print("E-mails encontrados. Iniciando processamento...")
         # Itera sobre os IDs dos emails
