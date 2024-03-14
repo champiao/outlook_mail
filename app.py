@@ -14,22 +14,9 @@ def export_to_pdf(subject, body, ident, files):
         print("Iniciando exportação do PDF...")
         # # Cria um arquivo PDF com o título do email como nome do arquivo
         config = pdfkit.configuration(wkhtmltopdf='/usr/local/bin/wkhtmltopdf')
-        print(files)
-
-        # if os.path.exists(path):
-        #     pdfkit.from_string(str(body), 'FOI.pdf', append=True, configuration = config)
-        # elif os.path.exists(path=False):
-        #     pdfkit.from_string(str(body), 'FOI.pdf', configuration = config)
         pdfkit.from_string(str(body), f'separados/email_{ident}.pdf')
-
-        # if os.path.exists('Final.pdf'):
-        # else:
-        #     pdfkit.from_string('<html><h1>NEW</h1></html>', 'Final.pdf')
         
-        # config = pdfkit.configuration(wkhtmltopdf='/usr/local/bin/wkhtmltopdf')
-        # pdfkit.from_string(str(body), output_path = 'meu_arquivo.pdf', configuration = config)
-        
-        # print(f"PDF exportado para: {filename}")
+        print(f"PDF exportado para: email_{ident}.pdf")
     except Exception as e:
         print(f"Erro ao exportar PDF: {e}")
 
@@ -84,6 +71,7 @@ def fetch_and_export_emails(username, password):
                         print('Nenhum email com o subject especificado foi encontrado')
                 else:
                     print("Nenhum email encontrado na caixa de entrada.")
+        # merge entre arquivos PDF criados separadamente
         for pdf in files:
             merger.append(pdf)
         merger.write('unificados/Final.pdf')
