@@ -8,7 +8,8 @@ from datetime import datetime
 import pytz
 from pypdf import PdfMerger
 from bs4 import BeautifulSoup
-# Carrega as variáveis de ambiente do arquivo .env
+
+
 load_dotenv()
 merger = PdfMerger()
 tz_SP = pytz.timezone('America/Sao_Paulo')
@@ -18,7 +19,7 @@ def export_to_pdf(subject, body, ident, files):
     try:
         path = 'FOI.pdf'
         print("Iniciando exportação do PDF...")
-        # # Cria um arquivo PDF com o título do email como nome do arquivo
+        # Cria um arquivo PDF com o título do email como nome do arquivo
         config = pdfkit.configuration(wkhtmltopdf='/usr/local/bin/wkhtmltopdf')
         pdfkit.from_string(str(body), f'separados/email_{ident}.pdf')
         
@@ -70,8 +71,6 @@ def fetch_and_export_emails(username, password):
                         # Exporta o email para PDF
                         files.append(f'separados/email_{ident}.pdf')
                         export_to_pdf(msg['Subject'], body, ident, files)
-                        # ident = ident+1
-                        # break  # Parar após encontrar o corpo de texto sem formatação
                         ident = ident+1
                     else:
                         print('Nenhum email com o subject especificado foi encontrado')
